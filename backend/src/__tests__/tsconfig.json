@@ -1,4 +1,13 @@
 {
-  "extends": "../../../backend/tsconfig.jest.json",
-  "include": ["./**/*.ts"]
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "esnext",
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "types": ["node", "jest"],
+    "noEmit": true
+  },
+  "include": ["./**/*.ts", "../**/*.ts"]
 }
