@@ -481,7 +481,7 @@ describe("AllPay Comprehensive API Tests", () => {
       expect(res.status).toBe(200);
       expect(res.body.ok).toBe(true);
       
-      const updatedTx = await Transaction.findOne({ id: tx?.id });
+      const updatedTx = await Transaction.findOne({ id: tx!.id });
       expect(updatedTx?.status).toBe("approved");
       expect(updatedTx?.adminDecision).toContain("Approved in full");
     });
@@ -494,7 +494,7 @@ describe("AllPay Comprehensive API Tests", () => {
         .send({ transactionId: tx?.id, amount: 300 });
       expect(res.status).toBe(200);
       
-      const updatedTx = await Transaction.findOne({ id: tx?.id });
+      const updatedTx = await Transaction.findOne({ id: tx!.id });
       expect(updatedTx?.status).toBe("approved");
       expect(updatedTx?.claimedAmount).toBe(300);
       expect(updatedTx?.adminDecision).toContain("Partial approval");
@@ -509,7 +509,7 @@ describe("AllPay Comprehensive API Tests", () => {
       expect(res.status).toBe(200);
       expect(res.body.ok).toBe(true);
       
-      const updatedTx = await Transaction.findOne({ id: tx?.id });
+      const updatedTx = await Transaction.findOne({ id: tx!.id });
       expect(updatedTx?.status).toBe("rejected");
       expect(updatedTx?.adminDecision).toContain("Policy violation");
     });
@@ -529,9 +529,9 @@ describe("AllPay Comprehensive API Tests", () => {
         .set(authHeader(superAdminToken))
         .send({ transactionId: tx?.id, amount: tx?.amount });
       
-      const updatedTx = await Transaction.findOne({ id: tx?.id });
+      const updatedTx = await Transaction.findOne({ id: tx!.id });
       expect(updatedTx?.timeline.length).toBeGreaterThan(0);
-      expect(updatedTx?.timeline[0].action).toContain("Admin reviewed");
+      expect((updatedTx?.timeline ?? [])[0]?.action).toContain("Admin reviewed");
     });
 
     it("should handle bulk approval", async () => {
